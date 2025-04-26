@@ -44,8 +44,8 @@ describe("ResMedLoader", () => {
     sessions.sort((a, b) => b.start.getTime() - a.start.getTime());
 
     expect(sessions.length).toBe(3);
-    expect(sessions[0].start).toEqual(new Date("2024-12-09T01:58:49.000Z"));
-    expect(sessions[0].end).toEqual(new Date("2024-12-09T02:52:49.000Z"));
+    expect(sessions[0].start).toEqual(new Date(2024, 11, 9, 2, 58, 49));
+    expect(sessions[0].end).toEqual(new Date(2024, 11, 9, 3, 52, 49));
   });
 
   it("should load a session correctly", async () => {
@@ -69,7 +69,7 @@ describe("ResMedLoader", () => {
     expect(edfFile.header).toEqual({
       patientId: "X X X X",
       recordingId: "Startdate 08-DEC-2024 X X X",
-      startTime: new Date("2024-12-08T01:39:39.000Z"),
+      startTime: new Date(2024, 11, 8, 2, 39, 39),
       dataRecords: 22,
       recordDuration: 60,
       signalCount: 14,
