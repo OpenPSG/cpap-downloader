@@ -1,7 +1,7 @@
 {
   "name": "openpsg-cpap-downloader",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Web Based Tool For Creating EDF+ Session Files From CPAP Card Data",
   "type": "module",
   "scripts": {
