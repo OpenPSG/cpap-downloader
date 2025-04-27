@@ -1,6 +1,22 @@
 # cpap-downloader
 
-A Web Based Tool For Creating EDF+ Session Files From CPAP Card Data
+A Web Based Tool For Creating EDF+ Session Files From CPAP Card Data (and more).
+
+## Supported Devices
+
+### CPAP Machines
+
+#### ResMed
+
+- ResMed AirSense 10
+
+### Pulse Oximeter
+
+#### Contec
+
+Via exports from Contec's SpO2 Assistant software.
+
+- Contec CMS-xxx
 
 ## Disclaimer
 

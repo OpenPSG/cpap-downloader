@@ -4,7 +4,7 @@
 
 import { EDFAnnotation, EDFHeader } from "edf-ts";
 
-// CPAP Therapy Session.
+// Therapy Session.
 export interface Session {
   // The start date of the session.
   start: Date;

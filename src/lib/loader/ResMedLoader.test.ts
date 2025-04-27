@@ -4,9 +4,8 @@
 
 import { describe, it, expect, beforeEach } from "vitest";
 import ResMedLoader from "./ResMedLoader";
-import { readFile } from "fs/promises";
 import path from "path";
-import fs from "fs";
+import { loadDirectoryFromFolder } from "./TestUtils";
 
 describe("ResMedLoader", () => {
   let loader: ResMedLoader;
@@ -63,8 +62,6 @@ describe("ResMedLoader", () => {
 
     expect(edfFile).toBeDefined();
     expect(edfFile.annotations.length).toBe(2);
-
-    expect(edfFile.header).toBeDefined();
 
     expect(edfFile.header).toEqual({
       patientId: "X X X X",
@@ -249,34 +246,4 @@ describe("ResMedLoader", () => {
     expect(edfFile.values[0].length).toBe(21 * 1500);
     expect(edfFile.values[13].length).toBe(21 * 30);
   });
-
-  async function loadDirectoryFromFolder(
-    folderPath: string,
-  ): Promise<Map<string, File>> {
-    const directory = new Map<string, File>();
-
-    // Read directory contents recursively
-    const files = await getAllFiles(folderPath);
-
-    for (const filePath of files) {
-      const buffer = await readFile(filePath);
-      const relativePath = path
-        .relative(folderPath, filePath)
-        .replace(/\\/g, "/"); // Normalize to unix slashes
-      directory.set(relativePath, new File([buffer], path.basename(filePath)));
-    }
-
-    return directory;
-  }
-
-  async function getAllFiles(dir: string): Promise<string[]> {
-    const dirents = await fs.promises.readdir(dir, { withFileTypes: true });
-    const files = await Promise.all(
-      dirents.map((dirent) => {
-        const res = path.resolve(dir, dirent.name);
-        return dirent.isDirectory() ? getAllFiles(res) : res;
-      }),
-    );
-    return Array.prototype.concat(...files);
-  }
 });

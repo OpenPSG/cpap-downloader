@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import { EDFWriter } from "edf-ts";
 import { Loader, Session } from "@/lib/loader/Loader";
 import ResMedLoader from "@/lib/loader/ResMedLoader";
+import SpO2AssistantLoader from "@/lib/loader/SpO2AssistantLoader";
 
 function App() {
   const [files, setFiles] = useState<File[]>([]);
@@ -22,7 +23,7 @@ function App() {
   const [sessions, setSessions] = useState<Session[]>([]);
 
   const loaders = useMemo(() => {
-    return [new ResMedLoader()];
+    return [new ResMedLoader(), new SpO2AssistantLoader()];
   }, []);
 
   const handleUpload = useCallback(
@@ -44,12 +45,17 @@ function App() {
         });
 
         // Find the appropriate loader for the files
-        const loader = loaders.find((loader) =>
-          loader.validateDirectory(directory),
-        );
+        let loader: Loader | undefined = undefined;
+        for (const l of loaders) {
+          const isValid = await l.validateDirectory(directory);
+          if (isValid) {
+            loader = l;
+            break;
+          }
+        }
         if (!loader) {
           throw new Error(
-            "Could not find a compatible CPAP loader for the selected directory.",
+            "Could not find a compatible loader for the selected directory.",
           );
         }
         setSelectedLoader(loader);
