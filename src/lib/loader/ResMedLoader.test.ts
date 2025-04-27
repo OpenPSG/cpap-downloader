@@ -111,7 +111,7 @@ describe("ResMedLoader", () => {
           reserved: "",
         },
         {
-          label: "InspPressure",
+          label: "IPAP",
           transducerType: "ResMed PAP",
           physicalDimension: "cmH2O",
           physicalMin: 0,
@@ -123,7 +123,7 @@ describe("ResMedLoader", () => {
           reserved: "",
         },
         {
-          label: "ExpPressure",
+          label: "EPAP",
           transducerType: "ResMed PAP",
           physicalDimension: "cmH2O",
           physicalMin: 0,

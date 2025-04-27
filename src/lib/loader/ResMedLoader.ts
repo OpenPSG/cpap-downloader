@@ -19,11 +19,8 @@ const CANONICAL_NAMES = new Map<string, string[]>([
   ["Flow", ["Flow.40ms"]],
   ["Pressure", ["Press.40ms", "MaskPress.2s"]],
   ["RespEvent", ["TrigCycEvt.40ms"]],
-  ["InspPressure", ["Press.2s", "IPAP", "S.BL.IPAP", "S.S.IPAP"]],
-  [
-    "ExpPressure",
-    ["EprPress.2s", "EPAP", "S.BL.EPAP", "EPRPress.2s", "S.S.EPAP"],
-  ],
+  ["IPAP", ["Press.2s", "IPAP", "S.BL.IPAP", "S.S.IPAP"]],
+  ["EPAP", ["EprPress.2s", "EPAP", "S.BL.EPAP", "EPRPress.2s", "S.S.EPAP"]],
   [
     "Leak",
     [
@@ -147,16 +144,14 @@ class ResMedLoader implements Loader {
         );
       }
 
-      let values = header.signals
-        .map((signal, i) => ({ signal, i }))
-        .map(({ i }) => reader.readSignal(i));
+      let values = header.signals.map(({ label }) => reader.readValues(label));
 
-      // Filter out the EDF Annotations and CRC signals.
+      // Filter out the CRC and junk signals.
       const { filteredSignals, filteredValues } = filterSignals(
         header.signals,
         values,
         {
-          disallowedLabels: ["EDF Annotations", "Crc16", ""],
+          disallowedLabels: ["Crc16", ""],
         },
       );
       header.signals = filteredSignals;
