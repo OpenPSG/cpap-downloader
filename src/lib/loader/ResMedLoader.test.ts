@@ -70,13 +70,13 @@ describe("ResMedLoader", () => {
       patientId: "X X X X",
       recordingId: "Startdate 08-DEC-2024 X X X",
       startTime: new Date(2024, 11, 8, 2, 39, 39),
-      dataRecords: 22,
+      dataRecords: 21,
       recordDuration: 60,
       signalCount: 14,
       signals: [
         {
           label: "Flow",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "L/s",
           physicalMin: -2,
           physicalMax: 3,
@@ -87,8 +87,8 @@ describe("ResMedLoader", () => {
           reserved: "",
         },
         {
-          label: "MaskPressure",
-          transducerType: "",
+          label: "Pressure",
+          transducerType: "ResMed PAP",
           physicalDimension: "cmH2O",
           physicalMin: 0,
           physicalMax: 40,
@@ -100,7 +100,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "RespEvent",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "",
           physicalMin: 0,
           physicalMax: 16,
@@ -112,7 +112,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "InspPressure",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "cmH2O",
           physicalMin: 0,
           physicalMax: 30,
@@ -124,7 +124,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "ExpPressure",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "cmH2O",
           physicalMin: 0,
           physicalMax: 30,
@@ -136,7 +136,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "Leak",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "L/s",
           physicalMin: 0,
           physicalMax: 2,
@@ -148,7 +148,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "RespRate",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "bpm",
           physicalMin: 0,
           physicalMax: 50,
@@ -160,7 +160,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "TidalVolume",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "L",
           physicalMin: 0,
           physicalMax: 4,
@@ -172,7 +172,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "MinuteVent",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "L/min",
           physicalMin: 0,
           physicalMax: 30,
@@ -184,7 +184,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "InspExpRatio",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "%",
           physicalMin: 0,
           physicalMax: 200,
@@ -196,7 +196,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "Snore",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "",
           physicalMin: 0,
           physicalMax: 5,
@@ -208,7 +208,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "FlowLim",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "",
           physicalMin: 0,
           physicalMax: 1,
@@ -220,7 +220,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "InspTime",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "s",
           physicalMin: 0,
           physicalMax: 10,
@@ -232,7 +232,7 @@ describe("ResMedLoader", () => {
         },
         {
           label: "ExpTime",
-          transducerType: "",
+          transducerType: "ResMed PAP",
           physicalDimension: "s",
           physicalMin: 0,
           physicalMax: 10,
@@ -246,9 +246,8 @@ describe("ResMedLoader", () => {
     });
 
     expect(edfFile.values.length).toBe(14);
-    // TODO: explicitly pad.
-    expect(edfFile.values[0].length).toBe(32975);
-    expect(edfFile.values[13].length).toBe(22 * 30);
+    expect(edfFile.values[0].length).toBe(21 * 1500);
+    expect(edfFile.values[13].length).toBe(21 * 30);
   });
 
   async function loadDirectoryFromFolder(

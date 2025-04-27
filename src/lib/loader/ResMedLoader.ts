@@ -17,7 +17,7 @@ import IntervalTree from "node-interval-tree";
 // rather than just doing it in the frontend.
 const CANONICAL_NAMES = new Map<string, string[]>([
   ["Flow", ["Flow.40ms"]],
-  ["MaskPressure", ["Press.40ms", "MaskPress.2s"]],
+  ["Pressure", ["Press.40ms", "MaskPress.2s"]],
   ["RespEvent", ["TrigCycEvt.40ms"]],
   ["InspPressure", ["Press.2s", "IPAP", "S.BL.IPAP", "S.S.IPAP"]],
   [
@@ -82,6 +82,7 @@ class ResMedLoader implements Loader {
       const reader = new EDFReader(new Uint8Array(buffer));
       const header = reader.readHeader();
 
+      // Collect all the EDF files in the same directory as the session file.
       const dirPath = path.split("/").slice(0, -1).join("/");
       const files = new Map(
         Array.from(directory.entries())
@@ -205,7 +206,7 @@ class ResMedLoader implements Loader {
 
     // Find the common start and end times for the overlapping files.
     const { start: overlappingStart, end: overlappingEnd } =
-      findCommonTimeRange(overlappingFiles);
+      findCommonTimeRange(overlappingFiles, recordDuration);
 
     // Merge the signals and values from the overlapping files.
     const { signals, values, annotations } = mergeSignals(
@@ -272,6 +273,13 @@ class ResMedLoader implements Loader {
         file.header.signalCount--;
       }
     }
+
+    // Set the transducer type to "ResMed PAP" for all signals so that consumers
+    // know these signals came from a CPAP machine. ResMed does not set the
+    // transducer type by default.
+    file.header.signals.forEach((signal) => {
+      signal.transducerType = "ResMed PAP";
+    });
 
     // TODO: Add any additional post-processing steps here.
 

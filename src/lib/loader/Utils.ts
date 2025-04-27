@@ -67,7 +67,10 @@ export interface EDFFileWithDuration extends EDFFile {
 }
 
 // Find the common time range across multiple EDF files and align it to the nearest record boundary.
-export function findCommonTimeRange(files: EDFFileWithDuration[]): {
+export function findCommonTimeRange(
+  files: EDFFileWithDuration[],
+  recordDuration: number,
+): {
   start: Date;
   end: Date;
 } {
@@ -77,7 +80,10 @@ export function findCommonTimeRange(files: EDFFileWithDuration[]): {
   );
 
   const start = Math.max(...startTimes);
-  const end = Math.min(...endTimes);
+
+  let end = Math.min(...endTimes);
+  // Align the end time to the nearest record boundary.
+  end -= (end - start) % (recordDuration * 1000);
 
   return {
     start: new Date(start),
