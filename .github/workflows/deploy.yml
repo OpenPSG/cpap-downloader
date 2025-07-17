@@ -40,4 +40,4 @@ jobs:
         env:
           RSYNC_RSH: "ssh -o StrictHostKeyChecking=no"
         run: |
-          rsync -avz --delete dist/ github-actions@openpsg.com:/var/www/openpsg.com/cpap/
+          rsync -avz --delete dist/ github-actions@openpsg.com:/var/www/cpap/
